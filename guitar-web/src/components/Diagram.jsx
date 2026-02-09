@@ -1,4 +1,4 @@
-import { getScalePositions, MAX_FRETS } from '../utils/ScaleUtils'
+import { getScalePositions, MAX_FRETS, TUNINGS } from '../utils/ScaleUtils'
 import { useState, useEffect } from 'react'
 
 function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
@@ -19,16 +19,16 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
   
   // Obtener todas las posiciones donde hay notas del acorde
   const activePositions = []
+
   Object.values(scalePositions).forEach(positions => {
     positions.forEach(pos => activePositions.push(pos))
   })
 
-  // Verificar si hay una nota en esta posición
+
   const hasNote = (string, fret) => {
     return activePositions.some(pos => pos.string === string && pos.fret === fret)
   }
 
-  // Verificar si es la nota raíz
   const isRootNote = (note) => {
     return note === rootNote
   }
@@ -47,36 +47,10 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
       const getRedFrets = () => {
     if (!easyRemember) return []
     
-  const redFrets = []
-    let offset = 0
+    // Sistema Quick Memorize - Por definir
+    const redFrets = []
     
-    // Calcular para los primeros 12 trastes
-    for (let fret = 4; fret <= 12; fret += 4) {
-      const targetFret = fret + offset
-      
-      if (targetFret > 12) break
-      
-      if (fretHasNotes(targetFret)) {
-        redFrets.push(targetFret)
-      } else {
-        const nextFret = findNextFretWithNotes(targetFret + 1)
-        if (nextFret && nextFret <= 12) {
-          redFrets.push(nextFret)
-          offset += (nextFret - targetFret)
-        }
-      }
-    }
-
-    // Asegurar que el traste 12 esté incluido
-    if (!redFrets.includes(12)) {
-      redFrets.push(12)
-    }
-    
-    
-    // Repetir el patrón sumando 12 (segunda octava)
-    const secondOctave = redFrets.map(fret => fret + 12).filter(fret => fret <= MAX_FRETS)
-    
-    return [...redFrets, ...secondOctave]
+    return redFrets
   }
 
   const redFrets = getRedFrets()
@@ -108,8 +82,6 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
 
   return (
     <div className="chord-diagram" style={{ width: '100%' }}>
-      <h3>{rootNote} {nameScaleType(scaleType)}</h3>
-      
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         preserveAspectRatio="xMidYMid meet"
@@ -163,7 +135,7 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
                 <circle
                   cx={50 + fret * 40 + 20}
                   cy={STRING_Y_START + (5 - string) * STRING_SPACING}
-                  r="14"
+                  r="11"
                   fill={isRootNote(position.note) ? "#e76363" : "#6d6d6d"}
                   stroke={isRootNote(position.note) ? "#e76363" : "#6d6d6d"}
                   strokeWidth="2"
@@ -172,7 +144,7 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
                   x={50 + fret * 40 + 20}
                   y={STRING_Y_START + (5 - string) * STRING_SPACING + 5}
                   textAnchor="middle"
-                  fontSize="12"
+                  fontSize="10.5"
                   fontWeight="bold"
                   fill="white"
                 >
@@ -197,8 +169,8 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
         </text>
         ))}
         
-        {/* Nombres de cuerdas - Orden correcto de 6ta a 1ra */}
-        {['E', 'B', 'G', 'D', 'A', 'E'].map((note, index) => (
+        {/* Nombres de cuerdas - Dinámico basado en tuning */}
+        {(TUNINGS[tuning] || TUNINGS.standard_e).slice().reverse().map((note, index) => (
           <text
             key={`string-name-${index}`}
             x={25}

@@ -13,7 +13,7 @@ function Selector({
   
   const scaleTypes = [
     { value: 'major', label: 'Major' },
-    { value: 'minor', label: 'Minor' },
+    { value: 'natural_minor', label: 'Natural Minor' },
     { value: 'pentatonic_major', label: 'Pentatonic Major' },
     { value: 'pentatonic_minor', label: 'Pentatonic Minor' },
     { value: 'dorian', label: 'Dorian' },
@@ -22,24 +22,23 @@ function Selector({
     { value: 'mixolydian', label: 'Mixolydian' },
     { value: 'harmonic_minor', label: 'Harmonic Minor' },
     { value: 'blues', label: 'Blues' },
-    { value: 'natural_minor', label: 'Natural Minor' }
   ]
 
   const tuneTypes = [
-    { value: 'standard E', label: 'Standard E' },
-    { value: 'standard D#', label: 'Standard D#' },
-    { value: 'standard D', label: 'Standard D' },
-    { value: 'standard C#', label: 'Standard C#' },
-    { value: 'standard C', label: 'Standard C' },
+    { value: 'standard_e', label: 'Standard E' },
+    { value: 'standard_ds', label: 'Standard D#' },
+    { value: 'standard_d', label: 'Standard D' },
+    { value: 'standard_cs', label: 'Standard C#' },
+    { value: 'standard_c', label: 'Standard C' },
 
     { value: 'drop_d', label: 'Drop D' },
-    { value: 'drop_d#', label: 'Drop D#' },
-    { value: 'drop_c#', label: 'Drop C#' },
+    { value: 'drop_ds', label: 'Drop D#' },
+    { value: 'drop_cs', label: 'Drop C#' },
     { value: 'drop_c', label: 'Drop C' }
   ]
 
   return (
-    <div className="card" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+    <div className="card">
       <select 
         value={selectedNote} 
         onChange={(e) => onNoteChange(e.target.value)}
@@ -67,13 +66,13 @@ function Selector({
         ))}
       </select>
 
-      <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+      <label style={{ display: 'none'/*'inline-flex'*/, alignItems: 'center', gap: '0.5rem' }}>
         <input 
           type="checkbox"
           checked={easyRemember}
           onChange={(e) => onEasyRememberChange(e.target.checked)}
         />
-        Easy Remember
+        Quick Memorize
       </label>
     </div>
   )
