@@ -41,6 +41,33 @@
   color: #888;
 }
 
+/* Footer con enlace a GitHub */
+.github-footer {
+  background: #1a1a1a;
+  border-top: 2px solid #e76363;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+.github-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #e76363;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid #e76363;
+}
+
+.github-btn:hover {
+  background-color: #ff7b7b;
+  border-color: #ff7b7b;
+  transform: translateY(-2px);
+}
+
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
