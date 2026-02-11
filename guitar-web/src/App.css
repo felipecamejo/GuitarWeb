@@ -370,6 +370,8 @@ label:hover {
   background: #444;
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #e76363 0%, #e76363 var(--value, 0%), #444 var(--value, 0%), #444 100%);
 }
 
 .slider::-webkit-slider-thumb {
