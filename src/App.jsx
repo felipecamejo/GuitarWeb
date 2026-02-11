@@ -88,14 +88,14 @@ function App() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <nav className="main-nav">
         <Link 
-          to="/scale" 
-          className={`nav-link ${(location.pathname === '/scale' || location.pathname === '/') ? 'active' : ''}`}
+          to="scale" 
+          className={`nav-link ${(location.pathname === '/GuitarWeb/scale' || location.pathname === '/GuitarWeb/' || location.pathname === '/GuitarWeb') ? 'active' : ''}`}
         >
           Scale Explorer
         </Link>
         <Link 
-          to="/metronome" 
-          className={`nav-link ${location.pathname === '/metronome' ? 'active' : ''}`}
+          to="metronome" 
+          className={`nav-link ${location.pathname === '/GuitarWeb/metronome' ? 'active' : ''}`}
         >
           Metronome
         </Link>
@@ -103,10 +103,10 @@ function App() {
 
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<Navigate to="/scale" replace />} />
-          <Route path="/scale" element={<ScaleGenerator />} />
-          <Route path="/metronome" element={<MetronomePage />} />
-          <Route path="*" element={<Navigate to="/scale" replace />} />
+          <Route path="/" element={<Navigate to="scale" replace />} />
+          <Route path="scale" element={<ScaleGenerator />} />
+          <Route path="metronome" element={<MetronomePage />} />
+          <Route path="*" element={<Navigate to="scale" replace />} />
         </Routes>
       </div>
       
