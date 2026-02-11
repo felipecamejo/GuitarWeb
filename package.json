@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://felipecamejo.github.io/guitar-web/",
+  "homepage": "https://felipecamejo.github.io/GuitarWeb/",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",
