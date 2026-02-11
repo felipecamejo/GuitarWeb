@@ -89,7 +89,7 @@ function App() {
       <nav className="main-nav">
         <Link 
           to="/scale" 
-          className={`nav-link ${location.pathname === '/scale' ? 'active' : ''}`}
+          className={`nav-link ${(location.pathname === '/scale' || location.pathname === '/') ? 'active' : ''}`}
         >
           Scale Explorer
         </Link>
@@ -103,6 +103,7 @@ function App() {
 
       <div className="main-content">
         <Routes>
+          <Route path="/" element={<Navigate to="/scale" replace />} />
           <Route path="/scale" element={<ScaleGenerator />} />
           <Route path="/metronome" element={<MetronomePage />} />
           <Route path="*" element={<Navigate to="/scale" replace />} />
