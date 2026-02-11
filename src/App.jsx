@@ -88,14 +88,14 @@ function App() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <nav className="main-nav">
         <Link 
-          to="/guitar-web/scale" 
-          className={`nav-link ${location.pathname === '/guitar-web/scale' ? 'active' : ''}`}
+          to="/scale" 
+          className={`nav-link ${location.pathname === '/scale' ? 'active' : ''}`}
         >
           Scale Explorer
         </Link>
         <Link 
-          to="/guitar-web/metronome" 
-          className={`nav-link ${location.pathname === '/guitar-web/metronome' ? 'active' : ''}`}
+          to="/metronome" 
+          className={`nav-link ${location.pathname === '/metronome' ? 'active' : ''}`}
         >
           Metronome
         </Link>
@@ -103,9 +103,9 @@ function App() {
 
       <div className="main-content">
         <Routes>
-          <Route path="/guitar-web/scale" element={<ScaleGenerator />} />
-          <Route path="/guitar-web/metronome" element={<MetronomePage />} />
-          <Route path="*" element={<Navigate to="/guitar-web/scale" replace />} />
+          <Route path="/scale" element={<ScaleGenerator />} />
+          <Route path="/metronome" element={<MetronomePage />} />
+          <Route path="*" element={<Navigate to="/scale" replace />} />
         </Routes>
       </div>
       
