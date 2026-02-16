@@ -5,7 +5,7 @@ function Metronome() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [bpm, setBpm] = useState(120)
   const [currentBeat, setCurrentBeat] = useState(0)
-  const [volume, setVolume] = useState(0.5)
+  const [volume, setVolume] = useState(0.85)
   
   const audioContextRef = useRef(null)
   const nextNoteTimeRef = useRef(0)
@@ -16,7 +16,7 @@ function Metronome() {
   // Función para convertir valor lineal a logarítmico
   const getLogVolume = (linearValue) => {
     if (linearValue === 0) return 0
-    return Math.pow(linearValue, 1.5) * 2
+    return Math.pow(linearValue, 1.5) * 5
   }
 
   useEffect(() => {
@@ -87,7 +87,7 @@ function Metronome() {
     const envelope = audioContextRef.current.createGain()
     
     osc.frequency.value = beatNumber % 4 === 0 ? 1000 : 800
-    envelope.gain.value = 0.7
+    envelope.gain.value = 1.5
     envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.05)
     
     osc.connect(envelope)
