@@ -8,7 +8,7 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 768)
+      setIsSmallScreen(window.innerWidth < 778)
     }
     
     checkScreenSize()
