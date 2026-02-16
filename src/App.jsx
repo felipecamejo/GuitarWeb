@@ -5,6 +5,7 @@ import Diagram from './components/Diagram'
 import Selector from './components/Selector'
 import Metronome from './components/Metronome'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { getScaleNotes } from './utils/ScaleUtils'
 
 function ScaleGenerator() {
   const [selectedNote, setSelectedNote] = useState('C')
@@ -41,6 +42,9 @@ function ScaleGenerator() {
     }
   }
 
+  // Obtener las notas de la escala actual
+  const scaleNotes = getScaleNotes(selectedNote, selectedScaleType)
+
   return (
     <div style={{ width: '100%', maxWidth: '1200px' }}>
       <h1>Scale Explorer</h1>
@@ -59,6 +63,10 @@ function ScaleGenerator() {
       <h3 style={{ textAlign: 'center', margin: '2rem 0 1rem 0' }}>
         {selectedNote} {nameScaleType(selectedScaleType)}
       </h3>
+      
+      <p style={{ textAlign: 'center', margin: '0.5rem 0 1.5rem 0', color: '#999', fontSize: '1.1rem' }}>
+        ( {scaleNotes.join(' - ')} )
+      </p>
 
       <div style={{ width: '80vw', marginLeft: 'calc(50% - 40vw)', overflowX: 'auto' }}>
         <Diagram 
