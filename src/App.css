@@ -271,7 +271,8 @@ label:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
 .metronome-container {
