@@ -1,7 +1,7 @@
 import { getScalePositions, MAX_FRETS, TUNINGS } from '../utils/ScaleUtils'
 import { useState, useEffect } from 'react'
 
-function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
+function Diagram({ rootNote, scaleType, tuning}) {
   const scalePositions = getScalePositions(rootNote, scaleType, tuning)
 
   const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -43,17 +43,6 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
     }
     return null
   }
-
-      const getRedFrets = () => {
-    if (!easyRemember) return []
-    
-    // Sistema Quick Memorize - Por definir
-    const redFrets = []
-    
-    return redFrets
-  }
-
-  const redFrets = getRedFrets()
 
 
   function nameScaleType(type) {
@@ -109,7 +98,6 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
       
         {/* Dibujar trastes verticales */}
         {Array.from({ length: MAX_FRETS }, (_, fret) => {
-          const shouldBeRed = redFrets.includes(fret)
           
           return (
             <line
@@ -119,8 +107,8 @@ function Diagram({ rootNote, scaleType, easyRemember, tuning}) {
               y1={FRET_TOP}
               x2={50 + fret * 40}
               y2={FRET_BOTTOM}
-              stroke={shouldBeRed ? "#e76363" : "#6d6d6d"}
-              strokeWidth={fret === 1 || shouldBeRed ? "2" : "1"}
+              stroke={ "#6d6d6d"}
+              strokeWidth={fret === 1 ? "2" : "1"}
             />
           )
         })}

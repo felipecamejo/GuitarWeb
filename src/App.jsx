@@ -10,7 +10,6 @@ import { getScaleNotes } from './utils/ScaleUtils'
 function ScaleGenerator() {
   const [selectedNote, setSelectedNote] = useState('C')
   const [selectedScaleType, setSelectedScaleType] = useState('major')
-  const [easyRemember, setEasyRemember] = useState(false)
   const [selectedTuning, setSelectedTuning] = useState('standard_e')
 
   function handleNoteChange(note) {
@@ -54,8 +53,6 @@ function ScaleGenerator() {
         selectedScaleType={selectedScaleType}
         onNoteChange={handleNoteChange}
         onScaleTypeChange={handleScaleTypeChange}
-        easyRemember={easyRemember}
-        onEasyRememberChange={setEasyRemember}
         selectedTuning={selectedTuning}
         onTuningChange={handleTuningChange}
       />
@@ -72,7 +69,6 @@ function ScaleGenerator() {
         <Diagram 
           rootNote={selectedNote}
           scaleType={selectedScaleType}
-          easyRemember={easyRemember}
           tuning={selectedTuning}
         />
       </div>
