@@ -1,0 +1,44 @@
+.nav-link {
+  color: #e76363;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.4rem 1.2rem;
+  border: 2px solid #e76363;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.8rem;
+    letter-spacing: 0.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    letter-spacing: 0.3px;
+  }
+}
+
+.nav-link:hover {
+  border-color: #e76363;
+  color: white;
+  background: #e76363;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 99, 99, 0.3);
+}
+
+.nav-link.active {
+  border-color: #e76363;
+  background: #e76363;
+  color: white;
+}

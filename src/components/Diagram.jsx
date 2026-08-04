@@ -70,7 +70,7 @@ function Diagram({ rootNote, scaleType, tuning}) {
   const FRET_BOTTOM = 230
 
   return (
-    <div className="chord-diagram" style={{ width: '100%' }}>
+    <div style={{ width: '100%' }}>
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         preserveAspectRatio="xMidYMid meet"

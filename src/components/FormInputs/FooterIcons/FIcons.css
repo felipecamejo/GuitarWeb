@@ -1,0 +1,41 @@
+.Ficons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1.2rem;
+  background-color: transparent;
+  color: #e76363;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid #e76363;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .Ficons {
+    padding: 0.35rem 1rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Ficons {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+}
+
+.Ficons:hover {
+  background-color: #e76363;
+  border-color: #e76363;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 99, 99, 0.3);
+}

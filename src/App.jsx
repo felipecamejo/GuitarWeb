@@ -1,11 +1,13 @@
 import { useState } from 'react'
-import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import Diagram from './components/Diagram'
 import Selector from './components/Selector'
 import Metronome from './components/Metronome'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { getScaleNotes } from './utils/ScaleUtils'
+import Button from './components/FormInputs/Button/Button'
+import FIcons from './components/FormInputs/FooterIcons/FIcons'
 
 function ScaleGenerator() {
   const [selectedNote, setSelectedNote] = useState('C')
@@ -86,23 +88,11 @@ function MetronomePage() {
 }
 
 function App() {
-  const location = useLocation()
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <nav className="main-nav">
-        <Link 
-          to="/scale" 
-          className={`nav-link ${(location.pathname === '/scale' || location.pathname === '/') ? 'active' : ''}`}
-        >
-          Scale Explorer
-        </Link>
-        <Link 
-          to="/metronome" 
-          className={`nav-link ${location.pathname === '/metronome' ? 'active' : ''}`}
-        >
-          Metronome
-        </Link>
+        <Button to="/scale" label="Scale Explorer" />
+        <Button to="/metronome" label="Metronome" />
       </nav>
 
       <div className="main-content">
@@ -114,13 +104,14 @@ function App() {
         </Routes>
       </div>
       
-      <footer className="github-footer">
-        <a className="nav-link github-btn" href="https://github.com/felipecamejo" target="_blank" rel="noopener noreferrer">
-          <FaGithub style={{color: 'white', fontSize: '24px'}} />
-        </a>
-        <a className="nav-link github-btn" href="https://linkedin.com/in/felipe-camejo" target="_blank" rel="noopener noreferrer">
-          <FaLinkedin style={{color: 'white', fontSize: '24px'}} />
-        </a>
+      <footer className="footer">
+        <FIcons link="https://github.com/felipecamejo">
+          <FaGithub style={{ color: 'white', fontSize: '24px' }} />
+        </FIcons>
+
+        <FIcons link="https://linkedin.com/in/felipe-camejo">
+          <FaLinkedin style={{ color: 'white', fontSize: '24px' }} />
+        </FIcons>
       </footer>
     </div>
   )
