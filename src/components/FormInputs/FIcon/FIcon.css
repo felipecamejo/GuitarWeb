@@ -1,4 +1,4 @@
-.Ficons {
+.Ficon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@
 }
 
 @media (max-width: 768px) {
-  .Ficons {
+  .Ficon {
     padding: 0.35rem 1rem;
     font-size: 0.9rem;
     letter-spacing: 0.8px;
@@ -25,14 +25,14 @@
 }
 
 @media (max-width: 480px) {
-  .Ficons {
+  .Ficon {
     padding: 0.3rem 0.8rem;
     font-size: 0.85rem;
     letter-spacing: 0.5px;
   }
 }
 
-.Ficons:hover {
+.Ficon:hover {
   background-color: #e76363;
   border-color: #e76363;
   color: white;

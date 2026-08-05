@@ -4,10 +4,11 @@ import './App.css'
 import Diagram from './components/Diagram'
 import Selector from './components/Selector'
 import Metronome from './components/Metronome'
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { getScaleNotes } from './utils/ScaleUtils'
-import Button from './components/FormInputs/Button/Button'
-import FIcons from './components/FormInputs/FooterIcons/FIcons'
+
+import Footer from './components/page/Footer/Footer'
+import Nav from './components/page/Nav/Nav'
+
 
 function ScaleGenerator() {
   const [selectedNote, setSelectedNote] = useState('C')
@@ -88,12 +89,21 @@ function MetronomePage() {
 }
 
 function App() {
+
+  const ficons = [
+    { link: 'https://github.com/felipecamejo', fa: 'Github' },
+    { link: 'https://linkedin.com/in/felipe-camejo', fa: 'Linkedin' }
+  ]
+
+  const buttons = [
+    {to: '/scale', label: "Scale Explorer"},
+    {to: '/metronome', label: "Metronome"}
+  ]
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <nav className="main-nav">
-        <Button to="/scale" label="Scale Explorer" />
-        <Button to="/metronome" label="Metronome" />
-      </nav>
+
+    <Nav buttons={buttons}/>
 
       <div className="main-content">
         <Routes>
@@ -103,16 +113,8 @@ function App() {
           <Route path="*" element={<Navigate to="/scale" replace />} />
         </Routes>
       </div>
-      
-      <footer className="footer">
-        <FIcons link="https://github.com/felipecamejo">
-          <FaGithub style={{ color: 'white', fontSize: '24px' }} />
-        </FIcons>
 
-        <FIcons link="https://linkedin.com/in/felipe-camejo">
-          <FaLinkedin style={{ color: 'white', fontSize: '24px' }} />
-        </FIcons>
-      </footer>
+      <Footer ficons={ficons}/>
     </div>
   )
 }
