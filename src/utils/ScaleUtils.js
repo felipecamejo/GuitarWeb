@@ -4,6 +4,8 @@ export const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#'
 
 export const TUNINGS = {
   standard_e: ['E', 'A', 'D', 'G', 'B', 'E'],
+  bass_standard_e: ['E', 'A', 'D', 'G'],
+  s_standard_b : ['B', 'E', 'A', 'D', 'G', 'B', 'E'],
   standard_ds: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'],
   standard_d: ['D', 'G', 'C', 'F', 'A', 'D'],
   standard_cs: ['C#', 'F#', 'B', 'E', 'G#', 'C#'],

@@ -26,6 +26,8 @@ function Selector({
 
   const tuneTypes = [
     { value: 'standard_e', label: 'Standard E' },
+    { value: 'bass_standard_e', label:'Bass Standard E'},
+    { value: 's_standard_b', label:'Seven String Standard B'},
     { value: 'standard_ds', label: 'Standard D#' },
     { value: 'standard_d', label: 'Standard D' },
     { value: 'standard_cs', label: 'Standard C#' },
@@ -65,15 +67,6 @@ function Selector({
           <option key={t.value} value={t.value}>{t.label}</option>
         ))}
       </select>
-
-      <label style={{ display: 'none'/*'inline-flex'*/, alignItems: 'center', gap: '0.5rem' }}>
-        <input 
-          type="checkbox"
-          checked={easyRemember}
-          onChange={(e) => onEasyRememberChange(e.target.checked)}
-        />
-        Quick Memorize
-      </label>
     </div>
   )
 }
