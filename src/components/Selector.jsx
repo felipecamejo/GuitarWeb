@@ -1,4 +1,4 @@
-import { NOTES } from '../utils/ScaleUtils'
+import { NOTES, TUNING_PATTERNS } from '../utils/ScaleUtils'
 
 function Selector({
   selectedNote,
@@ -8,7 +8,10 @@ function Selector({
   easyRemember,
   onEasyRememberChange,
   selectedTuning,
-  onTuningChange
+  onTuningChange,
+  selectedTuningNote,
+  onTuningNoteChange
+
 }) {
   
   const scaleTypes = [
@@ -25,22 +28,19 @@ function Selector({
   ]
 
   const tuneTypes = [
-    { value: 'standard_e', label: 'Standard E' },
-    { value: 'bass_standard_e', label:'Bass Standard E'},
-    { value: 's_standard_b', label:'Seven String Standard B'},
-    { value: 'standard_ds', label: 'Standard D#' },
-    { value: 'standard_d', label: 'Standard D' },
-    { value: 'standard_cs', label: 'Standard C#' },
-    { value: 'standard_c', label: 'Standard C' },
-
-    { value: 'drop_d', label: 'Drop D' },
-    { value: 'drop_ds', label: 'Drop D#' },
-    { value: 'drop_cs', label: 'Drop C#' },
-    { value: 'drop_c', label: 'Drop C' }
+    { value: 'guitar-standard', label: 'Guitar Standard', pattern: TUNING_PATTERNS.guitar.standard },
+    { value: 'guitar-drop', label: 'Guitar Drop', pattern: TUNING_PATTERNS.guitar.drop },
+    { value: 'seven-guitar-standard', label: '7th Guitar Standard', pattern: TUNING_PATTERNS.sevenGuitar.standard},
+    { value: 'seven-guitar-drop', label: '7th Guitar Drop', pattern: TUNING_PATTERNS.sevenGuitar.drop },
+    { value: 'bass-standard', label: 'Bass Standard', pattern: TUNING_PATTERNS.bass.standard },
+    { value: 'bass-drop', label: 'Bass Drop', pattern: TUNING_PATTERNS.bass.drop },
+    { value: 'five-bass-standard', label: '5th Bass Standard', pattern: TUNING_PATTERNS.fiveBass.standard },
+    { value: 'five-bass-drop', label: '5th Bass Drop', pattern: TUNING_PATTERNS.fiveBass.drop },
   ]
 
   return (
     <div className="card">
+      Scale
       <select 
         value={selectedNote} 
         onChange={(e) => onNoteChange(e.target.value)}
@@ -58,13 +58,24 @@ function Selector({
           <option key={scale.value} value={scale.value}>{scale.label}</option>
         ))}
       </select>
-
+      Tuning
       <select
         value={selectedTuning}
-        onChange={(e) => onTuningChange(e.target.value)}
+        onChange={(e) => {
+          const selectedOption = tuneTypes.find(t => t.value === e.target.value)
+          onTuningChange(selectedOption || tuneTypes[0])
+        }}
       >
         {tuneTypes.map(t => (
           <option key={t.value} value={t.value}>{t.label}</option>
+        ))}
+      </select>
+      <select
+        value={selectedTuningNote}
+        onChange={(e) => onTuningNoteChange(e.target.value)}
+      >
+        {NOTES.map(tn => (
+          <option key={tn} value={tn}>{tn}</option>
         ))}
       </select>
     </div>

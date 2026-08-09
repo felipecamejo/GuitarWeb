@@ -4,7 +4,7 @@ import './App.css'
 import Diagram from './components/Diagram'
 import Selector from './components/Selector'
 import Metronome from './components/Metronome'
-import { getScaleNotes } from './utils/ScaleUtils'
+import { getScaleNotes, TUNING_PATTERNS } from './utils/ScaleUtils'
 
 import Footer from './components/page/Footer/Footer'
 import Nav from './components/page/Nav/Nav'
@@ -13,7 +13,12 @@ import Nav from './components/page/Nav/Nav'
 function ScaleGenerator() {
   const [selectedNote, setSelectedNote] = useState('C')
   const [selectedScaleType, setSelectedScaleType] = useState('major')
-  const [selectedTuning, setSelectedTuning] = useState('standard_e')
+  const [selectedTuningNote, setselectedTuningNote] = useState('E')
+  const [selectedTuning, setSelectedTuning] = useState({
+    value: 'guitar-standard',
+    pattern: TUNING_PATTERNS.guitar.standard
+  })
+
 
   function handleNoteChange(note) {
     setSelectedNote(note)
@@ -23,9 +28,14 @@ function ScaleGenerator() {
     setSelectedScaleType(scaleType)
   }
 
-  function handleTuningChange(tuning) { 
-    setSelectedTuning(tuning) 
+  function handleTuningNoteChange(tuningNote) {
+    setselectedTuningNote(tuningNote)
   }
+
+  function handleTuningChange(tuning) {
+    setSelectedTuning(tuning)
+  }
+
 
   function nameScaleType(type) {
     switch(type) {
@@ -56,8 +66,10 @@ function ScaleGenerator() {
         selectedScaleType={selectedScaleType}
         onNoteChange={handleNoteChange}
         onScaleTypeChange={handleScaleTypeChange}
-        selectedTuning={selectedTuning}
+        selectedTuning={selectedTuning.value}
         onTuningChange={handleTuningChange}
+        selectedTuningNote={selectedTuningNote}
+        onTuningNoteChange={handleTuningNoteChange}
       />
 
       <h3 style={{ textAlign: 'center', margin: '2rem 0 1rem 0' }}>
@@ -72,7 +84,8 @@ function ScaleGenerator() {
         <Diagram 
           rootNote={selectedNote}
           scaleType={selectedScaleType}
-          tuning={selectedTuning}
+          tuning={selectedTuning.pattern}
+          tuningNote={selectedTuningNote}
         />
       </div>
     </div>

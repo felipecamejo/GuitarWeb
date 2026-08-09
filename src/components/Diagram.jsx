@@ -1,8 +1,10 @@
-import { getScalePositions, MAX_FRETS, TUNINGS } from '../utils/ScaleUtils'
+import { generateTuning, getScalePositions, MAX_FRETS } from '../utils/ScaleUtils'
 import { useState, useEffect } from 'react'
 
-function Diagram({ rootNote, scaleType, tuning}) {
-  const scalePositions = getScalePositions(rootNote, scaleType, tuning)
+function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
+  const tuningNotes = generateTuning(tuningNote, tuning)
+  const stringCount = tuningNotes.length || 6
+  const scalePositions = getScalePositions(rootNote, scaleType, tuningNotes)
 
   const [isSmallScreen, setIsSmallScreen] = useState(false)
 
@@ -71,19 +73,8 @@ function Diagram({ rootNote, scaleType, tuning}) {
 
   let FRET_BOTTOM = 230
 
-  const NAMED_STRINGS = [];
-
-  if (TUNINGS[tuning].length !== 6) {
-    FRET_BOTTOM = TUNINGS[tuning].length * (230 / 5.5)
-
-
-    if (TUNINGS[tuning].length < 6) {
-      
-      for (let l = 0; l < 6 - TUNINGS[tuning].length; l++){
-            NAMED_STRINGS.push(null)
-      }
-      NAMED_STRINGS.push(...TUNINGS[tuning]);
-    }
+  if (stringCount !== 6) {
+    FRET_BOTTOM = stringCount * (230 / 5.5)
   }
 
   return (
@@ -100,7 +91,7 @@ function Diagram({ rootNote, scaleType, tuning}) {
       >
       
         {/* Dibujar cuerdas horizontales */}
-        {Array.from({ length: TUNINGS[tuning].length }, (_, string) => (
+        {Array.from({ length: stringCount }, (_, string) => (
           <line
             key={`string-${string}`}
             x1={50}
@@ -132,14 +123,14 @@ function Diagram({ rootNote, scaleType, tuning}) {
         
         
         {/* Dibujar puntos de las notas */}
-        {Array.from({ length: TUNINGS[tuning].length}, (_, string) =>
+        {Array.from({ length: stringCount }, (_, string) =>
           Array.from({ length: MAX_FRETS }, (_, fret) => {
             const position = activePositions.find(pos => pos.string === string && pos.fret === fret)
             return position && (
               <g key={`note-${string}-${fret}`}>
                 <circle
                   cx={50 + fret * 40 + 20}
-                  cy={STRING_Y_START + (TUNINGS[tuning].length - 1 - string) * STRING_SPACING}
+                  cy={STRING_Y_START + (stringCount - 1 - string) * STRING_SPACING}
                   r="11"
                   fill={isRootNote(position.note) ? "#e76363" : "#6d6d6d"}
                   stroke={isRootNote(position.note) ? "#e76363" : "#6d6d6d"}
@@ -147,7 +138,7 @@ function Diagram({ rootNote, scaleType, tuning}) {
                 />
                 <text
                   x={50 + fret * 40 + 20}
-                  y={STRING_Y_START + (TUNINGS[tuning].length - 1 - string) * STRING_SPACING + 5}
+                  y={STRING_Y_START + (stringCount - 1 - string) * STRING_SPACING + 5}
                   textAnchor="middle"
                   fontSize="10.5"
                   fontWeight="bold"
@@ -175,7 +166,7 @@ function Diagram({ rootNote, scaleType, tuning}) {
         ))}
         
         {/* Nombres de cuerdas - Dinámico basado en tuning */}
-        {( NAMED_STRINGS.length > 0 ? NAMED_STRINGS : TUNINGS[tuning] || TUNINGS.standard_e).slice().reverse().map((note, index) => (
+        {tuningNotes.slice().reverse().map((note, index) => (
           <text
             key={`string-name-${index}`}
             x={25}

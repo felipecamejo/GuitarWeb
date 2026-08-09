@@ -1,21 +1,43 @@
 // Notas cromáticas
 export const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
+export const TUNING_PATTERNS = {
+  guitar: {
+    standard: [5, 5, 5, 4, 5],
+    drop: [7, 5, 5, 5, 5],
 
-export const TUNINGS = {
-  standard_e: ['E', 'A', 'D', 'G', 'B', 'E'],
-  bass_standard_e: ['E', 'A', 'D', 'G'],
-  s_standard_b : ['B', 'E', 'A', 'D', 'G', 'B', 'E'],
-  standard_ds: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'],
-  standard_d: ['D', 'G', 'C', 'F', 'A', 'D'],
-  standard_cs: ['C#', 'F#', 'B', 'E', 'G#', 'C#'],
-  standard_c: ['C', 'F', 'A#', 'D#', 'G', 'C'],
-  drop_d: ['D', 'A', 'D', 'G', 'B', 'E'],
-  drop_ds: ['D#', 'A#', 'D#', 'G#', 'B', 'E'],
-  drop_cs: ['C#', 'G#', 'C#', 'F#', 'A#', 'D#'],
-  drop_c: ['C', 'G', 'C', 'F', 'A', 'D']
+  },
+
+  sevenGuitar: {
+    standard: [5, 5, 5, 4, 5, 5],
+    drop: [7, 5, 5, 5, 5, 5]
+  },
+
+  bass: {
+    standard: [5, 5, 5],
+    drop: [7, 5, 5],
+  },
+
+  fiveBass: {
+    standard: [5, 5, 5, 5],
+    drop: [7, 5, 5, 5]
+  }
 }
 
+ const tuningPatterns = {
+    'guitar-standard': TUNING_PATTERNS.guitar.standard,
+    'guitar-drop': TUNING_PATTERNS.guitar.drop,
+    'seven-guitar-standard': TUNING_PATTERNS.sevenGuitar.standard,
+    'seven-guitar-drop': TUNING_PATTERNS.sevenGuitar.drop,
+    'bass-standard': TUNING_PATTERNS.bass.standard,
+    'bass-drop': TUNING_PATTERNS.bass.drop,
+    'five-bass-standard': TUNING_PATTERNS.fiveBass.standard,
+    'five-bass-drop': TUNING_PATTERNS.fiveBass.drop,
+  }
+
+export function getTuningPattern(tuningKey) {
+  return tuningPatterns[tuningKey] || TUNING_PATTERNS.guitar.standard
+}
 
 // Intervalos para diferentes escalas (en semitonos)
 export const SCALE_INTERVALS = {
@@ -34,6 +56,25 @@ export const SCALE_INTERVALS = {
 
 export const MAX_FRETS = 22
 
+export function generateTuning(rootNote, tuningPattern) {
+  const rootIndex = NOTES.indexOf(rootNote)
+
+  if (rootIndex === -1 || !Array.isArray(tuningPattern) || tuningPattern.length === 0) {
+    return []
+  }
+
+  const tuning = [rootNote]
+  let currentIndex = rootIndex
+
+  tuningPattern.forEach(interval => {
+    currentIndex = (currentIndex + interval) % 12
+    tuning.push(NOTES[currentIndex])
+  })
+
+  return tuning
+}
+
+
 // Calcular las notas de una escala
 export function getScaleNotes(rootNote, scaleType) {
   const rootIndex = NOTES.indexOf(rootNote)
@@ -47,15 +88,20 @@ export function getScaleNotes(rootNote, scaleType) {
 
 export function findNotePositions(note, tuning) {
   const positions = []
-  const strings = TUNINGS[tuning] || TUNINGS.standard_e
 
-  strings.forEach((openString, stringIndex) => {
+  tuning.forEach((openString, stringIndex) => {
     const openStringIndex = NOTES.indexOf(openString)
+
     for (let fret = 0; fret <= MAX_FRETS; fret++) {
       const fretNoteIndex = (openStringIndex + fret) % 12
       const fretNote = NOTES[fretNoteIndex]
+
       if (fretNote === note) {
-        positions.push({ string: stringIndex, fret, note })
+        positions.push({
+          string: stringIndex,
+          fret,
+          note
+        })
       }
     }
   })
@@ -67,10 +113,10 @@ export function findNotePositions(note, tuning) {
 export function getScalePositions(rootNote, scaleType, tuning) {
   const scaleNotes = getScaleNotes(rootNote, scaleType)
   const allPositions = {}
-  
+
   scaleNotes.forEach(note => {
     allPositions[note] = findNotePositions(note, tuning)
   })
-  
+
   return allPositions
 }
