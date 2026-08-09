@@ -1,7 +1,7 @@
 {
   "name": "guitar-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.0.0",
   "type": "module",
   "homepage": "https://felipecamejo.github.io/GuitarWeb/",
   "scripts": {
