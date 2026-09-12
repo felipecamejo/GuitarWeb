@@ -76,7 +76,7 @@ function ScaleGenerator() {
         {selectedNote} {nameScaleType(selectedScaleType)}
       </h3>
       
-      <p style={{ textAlign: 'center', margin: '0.5rem 0 1.5rem 0', color: '#999', fontSize: '1.1rem' }}>
+      <p style={{ textAlign: 'center', margin: '0.5rem 0 1.5rem 0', color: '#aaa9a9', fontSize: '1.3rem' }}>
         ( {scaleNotes.join(' - ')} )
       </p>
 

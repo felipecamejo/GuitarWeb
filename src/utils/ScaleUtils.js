@@ -54,7 +54,7 @@ export const SCALE_INTERVALS = {
 
 }
 
-export const MAX_FRETS = 22
+export const MAX_FRETS = 23
 
 export function generateTuning(rootNote, tuningPattern) {
   const rootIndex = NOTES.indexOf(rootNote)

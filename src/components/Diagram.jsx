@@ -1,5 +1,6 @@
 import { generateTuning, getScalePositions, MAX_FRETS } from '../utils/ScaleUtils'
 import { useState, useEffect } from 'react'
+import { indexedFrets } from './../types/indexFrets'
 
 function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
   const tuningNotes = generateTuning(tuningNote, tuning)
@@ -96,7 +97,7 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
             key={`string-${string}`}
             x1={50}
             y1={STRING_Y_START + string * STRING_SPACING}
-            x2={930}
+            x2={42.12 * MAX_FRETS}
             y2={STRING_Y_START + string * STRING_SPACING}
             stroke="#6d6d6d"
             strokeWidth="2"
@@ -115,7 +116,7 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
               y1={FRET_TOP}
               x2={50 + fret * 40}
               y2={FRET_BOTTOM}
-              stroke={ "#6d6d6d"}
+              stroke={ fret ===1 ? "#e76363": "#6d6d6d"}
               strokeWidth={fret === 1 ? "2" : "1"}
             />
           )
@@ -164,6 +165,35 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
             {fret}
         </text>
         ))}
+
+        {/* Puntos de los trastes*/}
+        {Array.from({ length: MAX_FRETS }, (_, fret) => (
+           fret === 12 ? (
+            <>
+              <circle
+                cx={70 + fret * 40 - 8}
+                cy={240}
+                r="3"
+                fill="#e76363"
+              />
+
+              <circle
+                cx={70 + fret * 40 + 8}
+                cy={240}
+                r="3"
+                fill="#e76363"
+              />
+            </>
+          ) : indexedFrets.includes(fret) && (
+            <circle
+              cx={70 + fret * 40}
+              cy={240}
+              r="3"
+              fill="#e76363"
+              strokeWidth="0.3"
+            />
+          )
+        ))},
         
         {/* Nombres de cuerdas - Dinámico basado en tuning */}
         {tuningNotes.slice().reverse().map((note, index) => (
