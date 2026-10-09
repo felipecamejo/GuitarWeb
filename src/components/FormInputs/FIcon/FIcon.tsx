@@ -1,13 +1,18 @@
-import './FIcon.css'
-import '../Button/Button.css'
+import './FIcon'
+import '../Button/Button'
 
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 
+type Fa = 'github' | 'linkedin';
 
-const FIcon = ({ link, fa }) => {
+export type Ficon = {
+  fa: Fa
+  link: string
+}
 
+export default function FIcon (ficon : Ficon) {
   let child;
-  const normalizedFa = fa?.toLowerCase();
+  const normalizedFa = ficon.fa?.toLowerCase();
 
   if (normalizedFa === 'github') {
     child = <FaGithub style={{ color: 'white', fontSize: '24px' }} />
@@ -16,10 +21,8 @@ const FIcon = ({ link, fa }) => {
   }
 
   return (
-    <a className="nav-link Ficons" href={link} target="_blank" rel="noopener noreferrer">
+    <a className="nav-link Ficons" href={ficon.link} target="_blank" rel="noopener noreferrer">
       {child}
     </a>
   )
 }
-
-export default FIcon

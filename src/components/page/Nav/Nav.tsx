@@ -1,7 +1,8 @@
-import './Nav.css'
-import Button from '../../FormInputs/Button/Button'
+import './Nav'
+import Button, {button} from '../../FormInputs/Button/Button'
 
-const Nav = ({ buttons }) => {
+
+export default function Nav (buttons: button[]) {
   return (
     <nav className="nav">
       {buttons.map((btn, index) => (
@@ -10,5 +11,3 @@ const Nav = ({ buttons }) => {
     </nav>
   )
 }
-
-export default Nav

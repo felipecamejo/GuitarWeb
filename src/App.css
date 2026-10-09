@@ -1,12 +1,3 @@
-/* 
-BREAKPOINT PROBLEMÁTICO ENCONTRADO:
-En Diagram.jsx línea ~88-94, cuando window.innerWidth < 768px (isSmallScreen = true), 
-el SVG del diagrama se fuerza a minWidth: '1000px' causando scroll horizontal.
-El código problemático es:
-minWidth: isSmallScreen ? '1000px' : 'auto'
-Esto hace que el diagrama se vuelva más grande y permita scroll en pantallas < 768px.
-*/
-
 #root {
   width: 100%;
   min-height: 100vh;

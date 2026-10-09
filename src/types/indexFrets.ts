@@ -1,1 +1,0 @@
-export const indexedFrets: number[] = [1, 3, 5, 7, 9, 15, 17, 19, 21];
