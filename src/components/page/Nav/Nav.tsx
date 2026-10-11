@@ -1,8 +1,8 @@
-import './Nav'
-import Button, {button} from '../../FormInputs/Button/Button'
+import './Nav.css'
+import Button, {ButtonType} from '../../FormInputs/Button/Button'
 
 
-export default function Nav (buttons: button[]) {
+export default function Nav (buttons: ButtonType[]) {
   return (
     <nav className="nav">
       {buttons.map((btn, index) => (

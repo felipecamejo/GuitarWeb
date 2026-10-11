@@ -1,4 +1,4 @@
-import './Footer'
+import './Footer.css'
 import FIcon, {Ficon} from '../../FormInputs/FIcon/FIcon'
 
 

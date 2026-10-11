@@ -1,6 +1,7 @@
 // Notas cromáticas
 export const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'] as const
 export const indexedFrets: number[] = [1, 3, 5, 7, 9, 15, 17, 19, 21];
+export const MAX_FRETS = 23
 
 export type ArrayToPossibleType<T extends readonly unknown[]> = T[number]
 export type PossibleNotes = ArrayToPossibleType<typeof NOTES>
@@ -32,10 +33,9 @@ export type ObjectToPossibleType<T extends object> = T[keyof T]
 type TuningGroup = ObjectToPossibleType<typeof TUNING_PATTERNS>
 export type TuningFamily = keyof typeof TUNING_PATTERNS
 export type TuningName = keyof TuningGroup
-export type TuningKey = keyof typeof tuningPatterns
 export type TuningPattern = readonly number[];
 
-const tuningPatterns = {
+export const TUNING_TYPES = {
     'guitar-standard': TUNING_PATTERNS.guitar.standard,
     'guitar-drop': TUNING_PATTERNS.guitar.drop,
     'seven-guitar-standard': TUNING_PATTERNS.sevenGuitar.standard,
@@ -46,10 +46,38 @@ const tuningPatterns = {
     'five-bass-drop': TUNING_PATTERNS.fiveBass.drop,
 } as const
 
+export type TuningKey = keyof typeof TUNING_TYPES
+
+export type SelectedTuning = {
+  value: TuningKey,
+  pattern: TuningPattern
+}
+
 
 export function getTuningPattern(tuningKey: TuningKey): TuningPattern {
-  return tuningPatterns[tuningKey]
+  return TUNING_TYPES[tuningKey]
 }
+
+function formatTuningName(tuningKey: TuningKey): string {
+  return tuningKey
+    .split('-')
+    .map(part => {
+      if (part === 'seven') return '7th'
+      if (part === 'five') return '5th'
+      return part.charAt(0).toUpperCase() + part.slice(1)
+    })
+    .join(' ')
+}
+
+export function getTuningOptions(): (SelectedTuning & { label: string })[] {
+  return Object.entries(TUNING_TYPES).map(([value, pattern]) => ({
+    value: value as TuningKey,
+    label: formatTuningName(value as TuningKey),
+    pattern
+  }))
+}
+
+export const TUNING_OPTIONS = getTuningOptions()
 
 // Intervalos para diferentes escalas (en semitonos)
 export const SCALE_INTERVALS = {
@@ -68,8 +96,19 @@ export const SCALE_INTERVALS = {
 export type ScaleInterval = ObjectToPossibleType<typeof SCALE_INTERVALS>
 export type Scale = keyof typeof SCALE_INTERVALS
 
+export function formatScaleName(scaleName: Scale): string {
+  return scaleName
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
 
-export const MAX_FRETS = 23
+export const SCALE_TYPES = Object.keys(SCALE_INTERVALS).map(scale => ({
+  value: scale as Scale,
+  label: formatScaleName(scale as Scale)
+}))
+
+
 
 export type Tuning = readonly PossibleNotes[]
 export type NotePosition = {

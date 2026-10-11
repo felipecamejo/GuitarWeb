@@ -7,20 +7,20 @@ function Metronome() {
   const [currentBeat, setCurrentBeat] = useState(0)
   const [volume, setVolume] = useState(0.85)
   
-  const audioContextRef = useRef(null)
+  const audioContextRef = useRef<AudioContext|null>(null)
   const nextNoteTimeRef = useRef(0)
   const timerIdRef = useRef(null)
   const currentBeatRef = useRef(0)
-  const gainNodeRef = useRef(null)
+  const gainNodeRef = useRef<GainNode|null>(null)
 
   // Función para convertir valor lineal a logarítmico
-  const getLogVolume = (linearValue) => {
+  const getLogVolume = (linearValue: number) => {
     if (linearValue === 0) return 0
     return Math.pow(linearValue, 1.5) * 5
   }
 
   useEffect(() => {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const audioContext = new (window.AudioContext || window.AudioContext)()
     audioContextRef.current = audioContext
     
     const gainNode = audioContext.createGain()
@@ -38,7 +38,7 @@ function Metronome() {
   useEffect(() => {
     if (gainNodeRef.current) {
       const logVolume = getLogVolume(volume)
-      gainNodeRef.current.gain.setValueAtTime(logVolume, audioContextRef.current.currentTime)
+      gainNodeRef.current.gain.setValueAtTime(logVolume, audioContextRef.current!.currentTime)
     }
   }, [volume])
 

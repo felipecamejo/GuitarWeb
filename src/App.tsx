@@ -4,54 +4,43 @@ import './App.css'
 import Diagram from './components/Diagram'
 import Selector from './components/Selector'
 import Metronome from './components/Metronome'
-import { getScaleNotes, TUNING_PATTERNS } from './utils/ScaleUtils'
+import { formatScaleName, getScaleNotes, PossibleNotes, Scale, SelectedTuning, TUNING_PATTERNS } from './utils/ScaleUtils'
 
 import Footer from './components/page/Footer/Footer'
 import Nav from './components/page/Nav/Nav'
+import { Ficon } from './components/FormInputs/FIcon/FIcon'
+import { ButtonType } from './components/FormInputs/Button/Button'
 
 
 function ScaleGenerator() {
-  const [selectedNote, setSelectedNote] = useState('C')
-  const [selectedScaleType, setSelectedScaleType] = useState('major')
-  const [selectedTuningNote, setselectedTuningNote] = useState('E')
-  const [selectedTuning, setSelectedTuning] = useState({
+  const [selectedNote, setSelectedNote] = useState<PossibleNotes>('C')
+  const [selectedScaleType, setSelectedScaleType] = useState<Scale>('major')
+  const [selectedTuningNote, setselectedTuningNote] = useState<PossibleNotes>('E')
+  const [selectedTuning, setSelectedTuning] = useState<SelectedTuning>({
     value: 'guitar-standard',
     pattern: TUNING_PATTERNS.guitar.standard
   })
 
 
-  function handleNoteChange(note) {
+  function handleNoteChange(note: PossibleNotes) {
     setSelectedNote(note)
   }
 
-  function handleScaleTypeChange(scaleType) {
+  function handleScaleTypeChange(scaleType: Scale ) {
     setSelectedScaleType(scaleType)
   }
 
-  function handleTuningNoteChange(tuningNote) {
+  function handleTuningNoteChange(tuningNote: PossibleNotes) {
     setselectedTuningNote(tuningNote)
   }
 
-  function handleTuningChange(tuning) {
+  function handleTuningChange(tuning: SelectedTuning) {
     setSelectedTuning(tuning)
   }
 
 
-  function nameScaleType(type) {
-    switch(type) {
-      case 'major': return 'Major'
-      case 'minor': return 'Minor'
-      case 'pentatonic_major': return 'Pentatonic Major'
-      case 'pentatonic_minor': return 'Pentatonic Minor'
-      case 'dorian': return 'Dorian'
-      case 'phrygian': return 'Phrygian'
-      case 'lydian': return 'Lydian'
-      case 'mixolydian': return 'Mixolydian'
-      case 'harmonic_minor': return 'Harmonic Minor'
-      case 'blues': return 'Blues'
-      case 'natural_minor': return 'Natural Minor'
-      default: return type
-    }
+  function nameScaleType(type: Scale) {
+    return formatScaleName(type)
   }
 
   // Obtener las notas de la escala actual
@@ -103,12 +92,12 @@ function MetronomePage() {
 
 function App() {
 
-  const ficons = [
-    { link: 'https://github.com/felipecamejo', fa: 'Github' },
-    { link: 'https://linkedin.com/in/felipe-camejo', fa: 'Linkedin' }
+  const ficons: Ficon[] = [
+    { link: 'https://github.com/felipecamejo', fa: 'github' },
+    { link: 'https://linkedin.com/in/felipe-camejo', fa: 'linkedin' }
   ]
 
-  const buttons = [
+  const buttons: ButtonType[] = [
     {to: '/scale', label: "Scale Explorer"},
     {to: '/metronome', label: "Metronome"}
   ]
@@ -116,7 +105,7 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
-    <Nav buttons={buttons}/>
+      {Nav(buttons)}
 
       <div className="main-content">
         <Routes>
@@ -127,7 +116,7 @@ function App() {
         </Routes>
       </div>
 
-      <Footer ficons={ficons}/>
+      {Footer(ficons)}
     </div>
   )
 }

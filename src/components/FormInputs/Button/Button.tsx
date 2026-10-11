@@ -1,13 +1,13 @@
 import { NavLink } from 'react-router-dom'
-import './Button'
+import './Button.css'
 
-export type button = {
+export type ButtonType = {
   fa?: string
   to: string,
   label: string
 }
 
-export default function Button (button: button) {
+export default function Button (button: ButtonType) {
   return (
     <NavLink
       to={button.to}
@@ -17,4 +17,3 @@ export default function Button (button: button) {
     </NavLink>
   )
 }
-

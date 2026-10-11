@@ -1,4 +1,4 @@
-import './FIcon'
+import './FIcon.css'
 import '../Button/Button'
 
 import { FaGithub, FaLinkedin } from 'react-icons/fa'

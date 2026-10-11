@@ -1,6 +1,6 @@
 import { generateTuning, getScalePositions, MAX_FRETS } from '../utils/ScaleUtils'
 import { useState, useEffect } from 'react'
-import { indexedFrets } from './../types/indexFrets'
+import { indexedFrets } from '../utils/ScaleUtils'
 
 function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
   const tuningNotes = generateTuning(tuningNote, tuning)
@@ -169,7 +169,7 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
         {/* Puntos de los trastes*/}
         {Array.from({ length: MAX_FRETS }, (_, fret) => (
            fret === 12 ? (
-            <>
+            <g key={`fret-marker-${fret}`}>
               <circle
                 cx={70 + fret * 40 - 8}
                 cy={240}
@@ -183,9 +183,10 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
                 r="3"
                 fill="#e76363"
               />
-            </>
+            </g>
           ) : indexedFrets.includes(fret) && (
             <circle
+              key={`fret-marker-${fret}`}
               cx={70 + fret * 40}
               cy={240}
               r="3"
