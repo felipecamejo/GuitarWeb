@@ -8,7 +8,6 @@ import { formatScaleName, getScaleNotes, PossibleNotes, Scale, SelectedTuning, T
 
 import Footer from './components/page/Footer/Footer'
 import Nav from './components/page/Nav/Nav'
-import { Ficon } from './components/FormInputs/FIcon/FIcon'
 import { ButtonType } from './components/FormInputs/Button/Button'
 
 
@@ -92,9 +91,9 @@ function MetronomePage() {
 
 function App() {
 
-  const ficons: Ficon[] = [
-    { link: 'https://github.com/felipecamejo', fa: 'github' },
-    { link: 'https://linkedin.com/in/felipe-camejo', fa: 'linkedin' }
+  const footerButtons: ButtonType[] = [
+    { to: 'https://github.com/felipecamejo', fa: 'github' },
+    { to: 'https://linkedin.com/in/felipe-camejo', fa: 'linkedin' }
   ]
 
   const buttons: ButtonType[] = [
@@ -116,7 +115,7 @@ function App() {
         </Routes>
       </div>
 
-      {Footer(ficons)}
+      {Footer(footerButtons)}
     </div>
   )
 }

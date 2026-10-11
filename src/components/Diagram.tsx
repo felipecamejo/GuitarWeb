@@ -1,8 +1,15 @@
-import { generateTuning, getScalePositions, MAX_FRETS } from '../utils/ScaleUtils'
+import { generateTuning, getScalePositions, MAX_FRETS, PossibleNotes, Scale, Tuning, TuningPattern } from '../utils/ScaleUtils'
 import { useState, useEffect } from 'react'
 import { indexedFrets } from '../utils/ScaleUtils'
 
-function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
+type DiagramProps = {
+  rootNote: PossibleNotes,
+  scaleType: Scale,
+  tuning: TuningPattern,
+  tuningNote: PossibleNotes
+}
+
+export default function Diagram({ rootNote, scaleType, tuning, tuningNote}: DiagramProps) {
   const tuningNotes = generateTuning(tuningNote, tuning)
   const stringCount = tuningNotes.length || 6
   const scalePositions = getScalePositions(rootNote, scaleType, tuningNotes)
@@ -21,48 +28,14 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
   }, [])
   
   // Obtener todas las posiciones donde hay notas del acorde
-  const activePositions = []
+  const activePositions: Array<{ string: number; fret: number; note: PossibleNotes }> = []
 
   Object.values(scalePositions).forEach(positions => {
     positions.forEach(pos => activePositions.push(pos))
   })
 
-
-  const hasNote = (string, fret) => {
-    return activePositions.some(pos => pos.string === string && pos.fret === fret)
-  }
-
-  const isRootNote = (note) => {
+  const isRootNote = (note: PossibleNotes) => {
     return note === rootNote
-  }
-
-  const fretHasNotes = (fret) => {
-    return activePositions.some(pos => pos.fret === fret)
-  }
-
-  const findNextFretWithNotes = (startFret) => {
-    for (let f = startFret; f <= 12; f++) {
-      if (fretHasNotes(f)) return f
-    }
-    return null
-  }
-
-
-  function nameScaleType(type) {
-    switch(type) {
-      case 'major': return 'Major'
-      case 'minor': return 'Minor'
-      case 'pentatonic_major': return 'Pentatonic Major'
-      case 'pentatonic_minor': return 'Pentatonic Minor'
-      case 'dorian': return 'Dorian'
-      case 'phrygian': return 'Phrygian'
-      case 'lydian': return 'Lydian'
-      case 'mixolydian': return 'Mixolydian'
-      case 'harmonic_minor': return 'Harmonic Minor'
-      case 'blues': return 'Blues'
-      case 'natural_minor': return 'Natural Minor'
-      default: return type
-    }
   }
 
   const WIDTH = 1010
@@ -70,7 +43,6 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
   const STRING_Y_START = 50
   const STRING_SPACING = 32
   const FRET_TOP = 30
-
 
   let FRET_BOTTOM = 230
 
@@ -139,7 +111,7 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
                 />
                 <text
                   x={50 + fret * 40 + 20}
-                  y={STRING_Y_START + (stringCount - 1 - string) * STRING_SPACING + 5}
+                  y={STRING_Y_START + (stringCount - 1 - string) * STRING_SPACING + 4}
                   textAnchor="middle"
                   fontSize="10.5"
                   fontWeight="bold"
@@ -166,7 +138,7 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
         </text>
         ))}
 
-        {/* Puntos de los trastes*/}
+        {/* Puntitos de los trastes*/}
         {Array.from({ length: MAX_FRETS }, (_, fret) => (
            fret === 12 ? (
             <g key={`fret-marker-${fret}`}>
@@ -216,5 +188,3 @@ function Diagram({ rootNote, scaleType, tuning, tuningNote}) {
 
   
 }
-
-export default Diagram

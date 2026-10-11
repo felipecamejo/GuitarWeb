@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type ChangeEvent, type CSSProperties } from 'react'
 import { HiVolumeUp } from 'react-icons/hi'
 
-function Metronome() {
+export default function Metronome() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [bpm, setBpm] = useState(120)
   const [currentBeat, setCurrentBeat] = useState(0)
@@ -9,7 +9,7 @@ function Metronome() {
   
   const audioContextRef = useRef<AudioContext|null>(null)
   const nextNoteTimeRef = useRef(0)
-  const timerIdRef = useRef(null)
+  const timerIdRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const currentBeatRef = useRef(0)
   const gainNodeRef = useRef<GainNode|null>(null)
 
@@ -44,7 +44,7 @@ function Metronome() {
 
   // Escuchar tecla space para play/pause
   useEffect(() => {
-    const handleKeyPress = (event) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       if (event.code === 'Space' && !event.repeat) {
         event.preventDefault()
         handleToggle()
@@ -62,40 +62,45 @@ function Metronome() {
   useEffect(() => {
     if (isPlaying) {
       // Detener el scheduler actual
-      clearTimeout(timerIdRef.current)
+      if (timerIdRef.current !== null) {
+        clearTimeout(timerIdRef.current)
+      }
       timerIdRef.current = null
       
       // Reiniciar inmediatamente con el nuevo tempo
       setCurrentBeat(0)
       currentBeatRef.current = 0
-      nextNoteTimeRef.current = audioContextRef.current.currentTime + 0.1
+      nextNoteTimeRef.current = audioContextRef.current!.currentTime + 0.1
       scheduler()
     }
   }, [bpm])
 
   useEffect(() => {
     if (isPlaying && !timerIdRef.current) {
-      nextNoteTimeRef.current = audioContextRef.current.currentTime + 0.1
+      nextNoteTimeRef.current = audioContextRef.current!.currentTime + 0.1
       scheduler()
     }
   }, [isPlaying])
 
-  const scheduleNote = (time, beatNumber) => {
-    if (time < audioContextRef.current.currentTime - 0.1) return
-    
-    const osc = audioContextRef.current.createOscillator()
-    const envelope = audioContextRef.current.createGain()
-    
+  const scheduleNote = (time: number, beatNumber: number) => {
+    const audioContext = audioContextRef.current
+    const gainNode = gainNodeRef.current
+
+    if (!audioContext || !gainNode || time < audioContext.currentTime - 0.1) return
+
+    const osc = audioContext.createOscillator()
+    const envelope = audioContext.createGain()
+
     osc.frequency.value = beatNumber % 4 === 0 ? 1000 : 800
     envelope.gain.value = 1.5
     envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.05)
     
     osc.connect(envelope)
-    envelope.connect(gainNodeRef.current)
-    
+    envelope.connect(gainNode)
+
     osc.start(time)
     osc.stop(time + 0.05)
-    
+
     const currentBeatValue = beatNumber % 4
     currentBeatRef.current = currentBeatValue
     setCurrentBeat(currentBeatValue)
@@ -105,7 +110,7 @@ function Metronome() {
     if (!isPlaying) return
     
     const secondsPerBeat = 60.0 / bpm
-    const currentTime = audioContextRef.current.currentTime
+    const currentTime = audioContextRef.current!.currentTime
     
     // Programar notas dentro de la ventana de lookahead
     while (nextNoteTimeRef.current < currentTime + 0.1) {
@@ -119,23 +124,27 @@ function Metronome() {
   }
 
   const startMetronome = () => {
-    if (audioContextRef.current.state === 'suspended') {
-      audioContextRef.current.resume()
+    if (audioContextRef.current!.state === 'suspended') {
+      audioContextRef.current!.resume()
     }
     
     // Limpiar cualquier timer existente
-    clearTimeout(timerIdRef.current)
+    if (timerIdRef.current !== null) {
+      clearTimeout(timerIdRef.current)
+    }
     timerIdRef.current = null
     
     // Resetear estado
     setCurrentBeat(0)
     currentBeatRef.current = 0
-    nextNoteTimeRef.current = audioContextRef.current.currentTime + 0.1
+    nextNoteTimeRef.current = audioContextRef.current!.currentTime + 0.1
     setIsPlaying(true)
   }
 
   const stopMetronome = () => {
-    clearTimeout(timerIdRef.current)
+    if (timerIdRef.current !== null) {
+      clearTimeout(timerIdRef.current)
+    }
     timerIdRef.current = null
     setIsPlaying(false)
     setCurrentBeat(0)
@@ -150,11 +159,11 @@ function Metronome() {
     }
   }
 
-  const handleBpmChange = (e) => {
+  const handleBpmChange = (e: ChangeEvent<HTMLInputElement>) => {
     setBpm(parseInt(e.target.value))
   }
 
-  const handleVolumeChange = (e) => {
+  const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVolume(parseFloat(e.target.value))
   }
 
@@ -175,7 +184,7 @@ function Metronome() {
             value={bpm}
             onChange={handleBpmChange}
             className="slider"
-            style={{'--value': `${((bpm - 40) / (240 - 40)) * 100}%`}}
+            style={{'--value': `${((bpm - 40) / (240 - 40)) * 100}%`} as CSSProperties}
           />
           <span className="max">240</span>
         </div>
@@ -190,7 +199,7 @@ function Metronome() {
             value={volume}
             onChange={handleVolumeChange}
             className="slider"
-            style={{'--value': `${volume * 100}%`}}
+            style={{'--value': `${volume * 100}%`} as CSSProperties}
           />
           <span className="volume-value">{volume === 0 ? '0%' : `${Math.round(volume * 100)}%`}</span>
         </div>
@@ -214,5 +223,3 @@ function Metronome() {
     </div>
   )
 }
-
-export default Metronome

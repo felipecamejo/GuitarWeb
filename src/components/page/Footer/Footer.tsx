@@ -1,12 +1,11 @@
 import './Footer.css'
-import FIcon, {Ficon} from '../../FormInputs/FIcon/FIcon'
+import Button, { ButtonType } from '../../FormInputs/Button/Button'
 
-
-export default function Footer (ficons: Ficon[]) {
+export default function Footer (footerButtons: ButtonType[]) {
   return (
     <footer className="footer">
-      {ficons.map((ficon, index: number) => (
-        <FIcon key={`${ficon.fa}-${index}`} link={ficon.link} fa={ficon.fa} />
+      {footerButtons.map((footerButton, index: number) => (
+        <Button key={`${footerButton.fa}-${index}`} to={footerButton.to} fa={footerButton.fa} />
       ))}
     </footer>
   )
