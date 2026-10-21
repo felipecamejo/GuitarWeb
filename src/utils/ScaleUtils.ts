@@ -14,7 +14,7 @@ export const TUNING_PATTERNS = {
 
   sevenGuitar: {
     standard: [5, 5, 5, 5, 4, 5],
-    drop: [7, 5, 5, 5, 5, 5]
+    drop: [7, 5, 5, 5, 4, 5]
   },
 
   bass: {
@@ -23,8 +23,8 @@ export const TUNING_PATTERNS = {
   },
 
   fiveBass: {
-    standard: [5, 5, 5, 5],
-    drop: [7, 5, 5, 5]
+    standard: [5, 5, 5, 4],
+    drop: [7, 5, 5, 4]
   }
 } as const
 
