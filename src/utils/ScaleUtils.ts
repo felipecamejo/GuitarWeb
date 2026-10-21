@@ -9,11 +9,11 @@ export type PossibleNotes = ArrayToPossibleType<typeof NOTES>
 export const TUNING_PATTERNS = {
   guitar: {
     standard: [5, 5, 5, 4, 5],
-    drop: [7, 5, 5, 5, 5],
+    drop: [7, 5, 5, 4, 5],
   },
 
   sevenGuitar: {
-    standard: [5, 5, 5, 4, 5, 5],
+    standard: [5, 5, 5, 5, 4, 5],
     drop: [7, 5, 5, 5, 5, 5]
   },
 

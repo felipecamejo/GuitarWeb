@@ -1,4 +1,5 @@
 import { NOTES, PossibleNotes, Scale, SCALE_TYPES, SelectedTuning, TuningKey, TUNING_OPTIONS } from '../utils/ScaleUtils'
+import Button from './FormInputs/Button/Button'
 
 
 type SelectorProps = {
@@ -10,6 +11,8 @@ type SelectorProps = {
   onTuningChange: (tuning: SelectedTuning) => void
   selectedTuningNote: PossibleNotes
   onTuningNoteChange: (value: PossibleNotes) => void
+  onRefresh: () => void
+  hasDiagramChanges: boolean
 }
 
 export default function Selector({
@@ -20,10 +23,12 @@ export default function Selector({
   selectedTuning,
   onTuningChange,
   selectedTuningNote,
-  onTuningNoteChange
+  onTuningNoteChange,
+  onRefresh,
+  hasDiagramChanges
 
 }: SelectorProps) {
-  
+
   return (
     <div className="card">
       Scale
@@ -64,6 +69,12 @@ export default function Selector({
           <option key={tn} value={tn}>{tn}</option>
         ))}
       </select>
+      {hasDiagramChanges && (
+        <Button
+          fa="refresh"
+          onClick={onRefresh}
+        />
+      )}
     </div>
   )
 }

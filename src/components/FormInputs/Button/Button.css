@@ -13,6 +13,11 @@
   background: transparent;
 }
 
+.button-link {
+  font-family: inherit;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .nav-link {
     font-size: 0.85rem;
@@ -35,6 +40,17 @@
   background: #e76363;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(231, 99, 99, 0.3);
+}
+
+.nav-link.disabled,
+.nav-link.disabled:hover {
+  border-color: #666;
+  color: #888;
+  background: #333;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
 }
 
 .nav-link.active {

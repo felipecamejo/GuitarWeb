@@ -19,6 +19,8 @@ function ScaleGenerator() {
     value: 'guitar-standard',
     pattern: TUNING_PATTERNS.guitar.standard
   })
+  const [diagramRefreshKey, setDiagramRefreshKey] = useState(0)
+  const [hasDiagramChanges, setHasDiagramChanges] = useState(false)
 
 
   function handleNoteChange(note: PossibleNotes) {
@@ -58,6 +60,8 @@ function ScaleGenerator() {
         onTuningChange={handleTuningChange}
         selectedTuningNote={selectedTuningNote}
         onTuningNoteChange={handleTuningNoteChange}
+        onRefresh={() => setDiagramRefreshKey(key => key + 1)}
+        hasDiagramChanges={hasDiagramChanges}
       />
 
       <h3 style={{ textAlign: 'center', margin: '2rem 0 1rem 0' }}>
@@ -74,6 +78,8 @@ function ScaleGenerator() {
           scaleType={selectedScaleType}
           tuning={selectedTuning.pattern}
           tuningNote={selectedTuningNote}
+          refreshKey={diagramRefreshKey}
+          onDiagramChanges={setHasDiagramChanges}
         />
       </div>
     </div>

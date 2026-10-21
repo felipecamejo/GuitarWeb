@@ -7,6 +7,58 @@
   overflow-x: hidden;
 }
 
+.fret-position {
+  cursor: pointer;
+}
+
+.fret-position:hover > rect {
+  fill: rgba(231, 99, 99, 0.15);
+}
+
+.fret-position-add > rect {
+  animation: fret-click 220ms ease-out;
+}
+
+.fret-position-add > circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fret-note-click 220ms ease-out;
+}
+
+.fret-position-remove > rect {
+  animation: fret-click 220ms ease-out reverse;
+}
+
+.fret-position-remove > circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fret-note-click 220ms ease-out reverse;
+}
+
+@keyframes fret-click {
+  0% {
+    fill: rgba(231, 99, 99, 0.35);
+  }
+  100% {
+    fill: transparent;
+  }
+}
+
+@keyframes fret-note-click {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -467,4 +519,3 @@ label:hover {
     box-shadow: 0 0 0 10px rgba(231, 99, 99, 0);
   }
 }
-

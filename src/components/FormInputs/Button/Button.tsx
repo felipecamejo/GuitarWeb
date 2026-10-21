@@ -1,18 +1,39 @@
 import { NavLink } from 'react-router-dom'
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaRedo } from 'react-icons/fa'
 import './Button.css'
 
 export type ButtonType = {
   fa?: Fa,
-  to: string,
+  to?: string,
   label?: string
+  disabled?: boolean
+  onClick?: () => void
 }
 
-type Fa = 'github' | 'linkedin';
+type Fa = 'github' | 'linkedin' | 'refresh';
 
 export default function Button (button: ButtonType) {
 
   let child;
+  const disabledClass = button.disabled ? ' disabled' : ''
+
+  if (button.fa === 'refresh') {
+    return (
+      <button
+        type="button"
+        className={`nav-link button-link${disabledClass}`}
+        aria-disabled={button.disabled}
+        disabled={button.disabled}
+        onClick={button.onClick}
+      >
+        <FaRedo />
+      </button>
+    )
+  }
+
+  if (!button.to) {
+    return null
+  }
 
   if (button.fa) {
 
@@ -25,21 +46,32 @@ export default function Button (button: ButtonType) {
     }
 
     return (
-      <a className="nav-link nav-link-footer" href={button.to} target="_blank" rel="noopener noreferrer">
+      <a
+        className={`nav-link nav-link-footer${disabledClass}`}
+        href={button.to}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-disabled={button.disabled}
+        tabIndex={button.disabled ? -1 : undefined}
+        onClick={button.disabled ? (event) => event.preventDefault() : button.onClick}
+      >
         {child}
       </a>
     )
   }
 
   return (
-    <NavLink to={button.to} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+    <NavLink
+      to={button.to}
+      className={({ isActive }) => `nav-link${isActive ? ' active' : ''}${disabledClass}`}
+      aria-disabled={button.disabled}
+      tabIndex={button.disabled ? -1 : undefined}
+      onClick={button.disabled ? (event) => event.preventDefault() : button.onClick}
+    >
       {button.label}
     </NavLink>
   )
 }
-
-
-
 
 
 
