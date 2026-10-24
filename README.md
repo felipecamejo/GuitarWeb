@@ -1,5 +1,14 @@
 # React + Vite
 
+## Deploy
+
+The site is built with Vite and deployed from the generated `dist` directory.
+Pushes to `main` trigger `.github/workflows/deploy.yml`.
+
+In the repository settings, configure **Pages > Build and deployment > Source**
+as **GitHub Actions**. The published site is:
+https://felipecamejo.github.io/GuitarWeb/
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
