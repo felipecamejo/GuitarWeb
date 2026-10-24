@@ -95,6 +95,10 @@ export default function Diagram({
       ? !hiddenPositions.has(key)
       : addedPositions.has(key)
 
+    if (!isCurrentlyVisible && !position) {
+      return;
+    }
+
     setClickedPosition({ key, direction: isCurrentlyVisible ? 'remove' : 'add' })
     if (clickAnimationTimeout.current !== undefined) {
       window.clearTimeout(clickAnimationTimeout.current)
@@ -185,7 +189,8 @@ export default function Diagram({
             const position = activePositions.find(pos => pos.string === string && pos.fret === fret)
             const key = positionKey(string, fret)
             const note = position?.note ?? getNoteAtPosition(string, fret)
-            const isVisible = (position && !hiddenPositions.has(key)) || addedPositions.has(key)
+            const isVisible = Boolean((position && !hiddenPositions.has(key)) || addedPositions.has(key))
+            const isGhost = Boolean(position && hiddenPositions.has(key))
             const isAnimatingRemoval = clickedPosition?.key === key && clickedPosition.direction === 'remove'
             const y = STRING_Y_START + (stringCount - 1 - string) * STRING_SPACING
 
@@ -193,6 +198,7 @@ export default function Diagram({
               <g
                 key={`note-${string}-${fret}`}
                 className={`fret-position${clickedPosition?.key === key ? ` fret-position-${clickedPosition.direction}` : ''}`}
+                opacity={isGhost ? 0.3 : 1}
                 onClick={() => handleClickFret(string, fret)}
               >
                 <rect
@@ -202,7 +208,7 @@ export default function Diagram({
                   height={STRING_SPACING}
                   fill="transparent"
                 />
-                {(isVisible || isAnimatingRemoval) && (
+                {(isVisible || isGhost || isAnimatingRemoval) && (
                   <>
                     <circle
                       cx={50 + fret * 40 + 20}
